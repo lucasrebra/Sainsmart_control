@@ -1,0 +1,28 @@
+<!--nuevo link
+
+        <joint name="base_link01__link03" type="revolute">
+                <origin xyz="2.9 0 11"/>
+	  	<axis xyz="0 1 0"/>
+          	<limit effort="1000.0" lower="-0.41" upper="2.16" velocity="0.5"/>
+		<parent link="link_01"/>
+		<child link="link_03"/>
+        </joint>
+
+    
+
+        <link name="link_03">
+
+          	<collision>
+			<origin rpy="0 0 0" xyz="0 -2 0"/>
+                        <geometry>
+             			<mesh filename="package://mr_description/meshes/pieza4.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+          	</collision>
+	 	<visual>
+			<origin rpy="0 0 0" xyz="0 -2 0"/>
+                        <geometry>
+             			<mesh filename="package://mr_description/meshes/pieza4.dae" scale="0.1 0.1 0.1"/>
+			</geometry>
+          	</visual>
+
+        </link>-->
