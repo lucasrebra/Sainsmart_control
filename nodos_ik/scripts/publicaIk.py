@@ -12,7 +12,7 @@ from Funciones_FkIk import *
 # Mensajes que necesitaremos para comunicacion entre nodos
 from nodos_ik.msg import angulos
 from sensor_msgs.msg import JointState
-from std_msgs.msg import String
+from std_msgs.msg import *
 from nodos_ik.msg import posicion
 
 joint = JointState()
@@ -23,6 +23,7 @@ def callback(posicion):
     """En la funcion callback inicializa los objetos ComputeIk y Pose en ik
     y en pose. luego calculamos los angulos de rotacion y los guardamos
     en thetas para luego publicar en joint con la estructura adecuada"""
+		
 
     ik = ComputeIk()  # creamos un objeto de cinematica inversa
 
@@ -39,8 +40,8 @@ def callback(posicion):
     # Datos para publicar con estructura de mensaje JointState
     joint.header = std_msgs.msg.Header()
     joint.header.stamp = rospy.Time.now()
-    joint.name = ['joint1', 'joint2', 'joint3', 'joint4']
-    joint.position = [thetas[1], thetas[2], thetas[3], thetas[4]]
+    joint.name = ['base_link__link01', 'link01__link02', 'link01__link05', 'link05__link06']
+    joint.position = [thetas[0], thetas[1], thetas[2], thetas[3]]
     joint.velocity = []
     joint.effort = []
 
@@ -48,11 +49,11 @@ def callback(posicion):
 def nodo():
     
 	pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
-	rospy.init_node("publicaIk")
+	rospy.init_node('publicaIk')
 	rate = rospy.Rate(7.8125)
 
 	while not rospy.is_shutdown():
-		rospy.Subscriber("pos_robot", posicion, callback)
+		rospy.Subscriber("/pos_robot", posicion, callback)
 		pub.publish(joint)
 		rate.sleep()
 
