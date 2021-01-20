@@ -29,14 +29,13 @@ class ComputeIk():
 		self.KNEE=26.0
 		self.ELBOW=133.0
 		self.SPAN=math.hypot(self.ELBOW,self.KNEE)
-		self.GRIPPER=121.0
 
 	def calcular_ik(self,p):
 
 
 		theta1=math.atan2(p.position.y,p.position.x)
 
-		wrist_position=np.array([p.position.x,p.position.y,p.position.z+20])
+		wrist_position=np.array([p.position.x,p.position.y,p.position.z])
 
 		arm_vector=wrist_position-np.array([math.cos(theta1)*self.FOOT,math.sin(theta1)*self.FOOT,self.BASE])
 
@@ -44,15 +43,15 @@ class ComputeIk():
 
 		modulo_vector=modVector(arm_vector[0],arm_vector[1],arm_vector[2])
 
-		elbow_elevation=Teorema_coseno(self.SPAN,modulo_vector,self.SHOULDER)
+		elbow_elevation=Teorema_coseno(modulo_vector,self.SHOULDER,self.SPAN)
 
-		shoulder_angle= math.pi*0.5-elbow_elevation-arm_elevation
+		shoulder_angle= -math.pi*0.5+elbow_elevation+arm_elevation
 
 		angulo_aux=Teorema_coseno(modulo_vector,self.SHOULDER,self.SPAN)
 
-	 	elbow_angle=-math.atan2((math.sin(arm_elevation+angulo_aux)*self.SHOULDER+self.BASE-p.position.z),(sqrt(p.position.x*p.position.x+p.position.y*p.position.y)-math.cos(arm_elevation+angulo_aux)*self.SHOULDER)-self.FOOT)
+	 	elbow_angle=pi/2-Teorema_coseno(self.SHOULDER,self.SPAN,modulo_vector)-math.atan2(KNEE,ELBOW)
 
-		theta4=0
+		thetha4=0
 		
 		theta=[theta1, shoulder_angle, elbow_angle,theta4]
 	
@@ -60,5 +59,44 @@ class ComputeIk():
 		return theta
 
 
+"""
+
+COMPROBADO EN PYTHON TABIÉN
+Px=150*10^-3
+Py=150*10^-3
+Pz=50*10^-3
+
+FOOT=40*10^-3
+BASE=110*10^-3
+brazo=127*10^-3
+hombro=133*10^-3
+KNEE=26*10^-3
+SPAN=sqrt(hombro^2+KNEE^2)
+
+tetha1=atan2(Py,Px)
+
+Px=(150*10^-3)-40*(10^-3)*cos(tetha1)
+Py=(150*10^-3)-40*(10^-3)*sin(tetha1)
+Pz=(50*10^-3)-BASE
+
+modulo=sqrt((Px)^2+(Py)^2+(Pz)^2)
+coseno=(-0.127^2-SPAN^2+modulo^2)/(2*SPAN*0.127)%teorema coseno
+%mejor con el SPAN en vez de con 133, si no falla
+%posible error
+if (coseno>1)
+    print("NO HAY SOLUCION")
+else
+tetha3=pi/2-acos((0.127^2+SPAN^2-modulo^2)/(2*SPAN*0.127))-atan2(KNEE,hombro)
+
+elevacion=atan2(Pz,sqrt(Px^2+Py^2))
+hola=(modulo^2+brazo^2-SPAN^2)/(2*modulo*brazo)
+gamma=acos(hola)
+
+tetha2=-pi/2+elevacion+gamma
+
+tethas=[tetha1 tetha2 tetha3]
+end
+
+"""
 	
 
