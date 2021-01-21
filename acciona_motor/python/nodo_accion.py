@@ -14,27 +14,37 @@ from std_msgs import Int32MultiArray
 def callback(MultiArray):
     """Function running in a rate of 50HZ"""
 
-  
     #Calculamos
     comando.data[0]=MultiArray[0]*(MAXY-MINY)/(MAX_ANGLE-MIN_ANGLE)+MINY#Faltan unidades de conversion de radianes a angulos
     comando.data[1]=MultiArray[1]*(MAXY-MINY)/(MAX_ANGLE-MIN_ANGLE)+MINY
     comando.data[2]=MultiArray[2]*(MAXY-MINY)/(MAX_ANGLE-MIN_ANGLE)+MINY
 
-    for(i=0;i<3;i=i+1):
-    if(comando.data[i]< MINY)
-        comando.data[i]=MINY
-    if(comando.data[i]> MAXY)
-        comando.data[i]=MAXY
+		contador=0;
+		
+		#Loop for knowing if it's between the limits and if not set to max or min
 
+    for i in comando.data:
+
+		  if(i< MINY)
+
+		      comando.data[contador]=MINY
+
+		  if(i> MAXY)
+
+		      comando.data[contador]=MAXY
+
+			contador=contador+1
 
 def nodo():
     """Instantializate the node and run the loop"""
 
+		pub=rospy.Publisher("/command",Int32MultiArray,queue_size=10)
+
     comando=Int32MultiArray()
 
-    pub=rospy.Publisher('command',Int32MultiArray,queue_size=10)
-
     rospy.init_node('CreaComandos',anonymous=False)
+
+		rospy.loginfo("CreaComandos node has initialized...")
 
     rate=rospy.Rate(7.8125) #Rate(Hz)
 
