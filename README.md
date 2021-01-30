@@ -20,13 +20,13 @@ rosrun acciona_motor nodo_simple.py
 
 Mediante estos comandos realizaremos lo siguiente:
 
-*1- Lanzar la simulación y el move_group para crear trayectorias para nuestro robot.
+* 1- Lanzar la simulación y el move_group para crear trayectorias para nuestro robot.
 
-*2- Damos permisos al puerto del arduino. Realmente esto lo deberíamos haber realizado con anterioridad para programar el board pero quiero ponerlo para recordarlo.
+* 2- Damos permisos al puerto del arduino. Realmente esto lo deberíamos haber realizado con anterioridad para programar el board pero quiero ponerlo para recordarlo.
 
-*3- Corremos el nodo que envolverá a nuestro arduino y que lo tratará como un nodo más de ROS lo cual nos ayudará a interactuar correctamente con él.
+* 3- Corremos el nodo que envolverá a nuestro arduino y que lo tratará como un nodo más de ROS lo cual nos ayudará a interactuar correctamente con él.
 
-*4- Lanzamos el nodo que se encargará de recoger las posiciones angulares que son devueltas como feedback de la simulación y las clona "imprimiéndolas" en nuestro robot.
+* 4- Lanzamos el nodo que se encargará de recoger las posiciones angulares que son devueltas como feedback de la simulación y las clona "imprimiéndolas" en nuestro robot.
 
 
 
