@@ -44,7 +44,7 @@ def callback(jointstate):
         
 
 def posicionador():
-    pub=rospy.Publisher('servosPWM',Int32MultiArray,queue_size=10)
+    pub=rospy.Publisher('/command',Int32MultiArray,queue_size=10)
     rospy.init_node('generaPWM',anonymous=False)
     freq=50
     rate=rospy.Rate(freq)
