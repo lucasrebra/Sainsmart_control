@@ -72,6 +72,7 @@ def callback(jointstate):
 #jointstate.position[2]*radtodegree*(max_pwm3-min_pwm3)/(max_angle3-min_angle3)+min_pwm3
     posicion.data[3]=(jointstate.position[3]*radtodegree-min_angle[3])*(max_pwm[3]-min_pwm[3])/(max_angle[3]-min_angle[3])+min_pwm[3]
      
+#If the angles are between limits OK, if not PWM max or me depending
     for n in range(3):
         if posicion.data[n]> max_pwm[n]:
             posicion.data[n]=max_pwm[n]
