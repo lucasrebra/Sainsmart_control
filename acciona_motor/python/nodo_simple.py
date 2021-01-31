@@ -67,17 +67,18 @@ def callback(jointstate):
     posicion.data[0]=(jointstate.position[0]*radtodegree-min_angle[0])*(max_pwm[0]-min_pwm[0])/(max_angle[0]-min_angle[0])+min_pwm[0]
 #jointstate.position[0]*radtodegree*(max_pwm1-min_pwm1)/(max_angle1-min_angle1)+min_pwm1
     posicion.data[1]=(jointstate.position[1]*radtodegree-min_angle[1])*(max_pwm[1]-min_pwm[1])/(max_angle[1]-min_angle[1])+min_pwm[1]
+    #posicion.data[1]=jointstate.position[1]*(-1.80555555)+280
 #jointstate.position[1]*radtodegree*(max_pwm2-min_pwm2)/(max_angle2-min_angle2)+min_pwm2
     posicion.data[2]=((jointstate.position[2]+jointstate.position[1])*radtodegree-min_angle[2])*(max_pwm[2]-min_pwm[2])/(max_angle[2]-min_angle[2])+min_pwm[2]
 #jointstate.position[2]*radtodegree*(max_pwm3-min_pwm3)/(max_angle3-min_angle3)+min_pwm3
     posicion.data[3]=(jointstate.position[3]*radtodegree-min_angle[3])*(max_pwm[3]-min_pwm[3])/(max_angle[3]-min_angle[3])+min_pwm[3]
      
 #If the angles are between limits OK, if not PWM max or me depending
-    for n in range(3):
-        if posicion.data[n]> max_pwm[n]:
-            posicion.data[n]=max_pwm[n]
-        if posicion.data[n]< min_pwm[n]:
-            posicion.data[n]=min_pwm[n]
+#    for n in range(3):
+ #       if posicion.data[n]> max_pwm[n]:
+   #         posicion.data[n]=max_pwm[n]
+      #  if posicion.data[n]< min_pwm[n]:
+        #    posicion.data[n]=min_pwm[n]
    
 
 def posicionador():
