@@ -42,15 +42,15 @@ void pwmTestCppPub::publishTopicCallback(const ros::TimerEvent &e) {
   // change this values and then compile to test
   // if you dont want to publish to a servo delete the line (will publish -1)
   // this can go to the constructor too since we cannot change the values at runtime
-  int32_array_msg_.data[0] = 5000;
-  int32_array_msg_.data[1] = 5000;
-  int32_array_msg_.data[2] = 5000;
-  int32_array_msg_.data[3] = 5000;
-  int32_array_msg_.data[4] = 5000;
-  int32_array_msg_.data[5] = 5000;
+  int32_array_msg_.data[0] = 300;
+  int32_array_msg_.data[1] = 500;
+  int32_array_msg_.data[2] = -1;
+  int32_array_msg_.data[3] = -1;
+  int32_array_msg_.data[4] = -1;
+  int32_array_msg_.data[5] = -1;
 
   // gripper
-  int32_array_msg_.data[6] = 5000;
+  int32_array_msg_.data[6] = -1;
 
   // publish the message
   int32_array_pub_.publish(int32_array_msg_);

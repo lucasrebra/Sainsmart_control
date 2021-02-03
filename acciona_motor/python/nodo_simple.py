@@ -85,7 +85,7 @@ def posicionador():
     pub=rospy.Publisher('/command',Int32MultiArray,queue_size=10)
     rospy.init_node('generaPWM',anonymous=False)
     freq=50
-    rate=rospy.Rate(30)
+    rate=rospy.Rate(50)
 
     while not rospy.is_shutdown():
         rospy.Subscriber("/myrobot/joint_states",JointState,callback)

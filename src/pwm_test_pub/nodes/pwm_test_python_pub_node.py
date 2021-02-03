@@ -6,44 +6,36 @@ from std_msgs.msg import Int32MultiArray
 class pwmTestPythonPub(object):
     def __init__(self):
         # create publisher
-        self._int32_array_pub = rospy.Publisher(
+        self._pub = rospy.Publisher(
             "/command", Int32MultiArray, queue_size=10, latch=True)
         # create the msg
-        self._int32_array_msg = Int32MultiArray()
+        self._msg = Int32MultiArray()
         # fill the message with size -1
         for i in range(16):
-            self._int32_array_msg.data.append(-1)
+            self._msg.data.append(-1)
 
         # create rate 50 hz
         self._freq = 50
         self._rate = rospy.Rate(self._freq)
 
-        self._start_range = 1000
-        self._end_range = 8000
-        self._step = 100  # each second
+        self._start_range = 100
+        self._end_range = 500
+        self._step = 40  # each second
         self._dir = 1
 
         # choose num of the servo in the board
-        self._pin = 5
-        self._int32_array_msg.data[self._pin] = self._start_range
+        self._pin = 0
+        self._msg.data[self._pin] = self._start_range
 
     def run(self):
         while not rospy.is_shutdown():
             # publish message
-            self._int32_array_pub.publish(self._int32_array_msg)
-            # check if we are over the maximum range reverse direction
-            if self._int32_array_msg.data[self._pin] > self._end_range:
-                self._int32_array_msg.data[self._pin] = self._end_range
+            self._pub.publish(self._msg)
+            if(self._msg.data[self._pin] > self._end_range or self._msg.data[self._pin] < self._start_range):
                 self._dir *= -1
-            # check if we are lower the minimum range reverse direction
-            if self._int32_array_msg.data[self._pin] < self._start_range:
-                self._int32_array_msg.data[self._pin] = self._start_range
-                self._dir *= -1
-            # modify message
-            if self._dir == 1:
-                self._int32_array_msg.data[self._pin] += self._step / self._freq
-            if self._dir == -1:
-                self._int32_array_msg.data[self._pin] -= self._step / self._freq
+
+            self._msg.data[self._pin] += self._dir * \
+                self._start_range / self._freq
             # sleep
             self._rate.sleep()
 
