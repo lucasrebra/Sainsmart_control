@@ -46,9 +46,9 @@ class DetectaCirculos:
         self.mask_pub.publish(self.bridge.cv2_to_imgmsg(mask,"8UC1"))
 
         #Guardamos los valores en con el formato de nuestro mensaje
-        for i in len(x_circulo):
-            self.pos_circulos.x[i] = x_circulo[i]
-            self.pos_circulos.y[i] = y_circulo[i]
+        for i in range(3):
+            self.pos_circulos.x[i] = 0# x_circulo[i]
+            self.pos_circulos.y[i] = 0# y_circulo[i]
             self.pos_circulos.z[i] = 0 #En nuestro ejemplo esta en el suelo
         
         #publicamos la posicion de los circulos en /circulos/coordenadas
