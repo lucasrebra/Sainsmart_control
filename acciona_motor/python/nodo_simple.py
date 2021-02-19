@@ -55,11 +55,12 @@ min_angle4=-90
 max_angle4=90"""
 
 #Vector for PWMman , PWMmin, max angles and min angles
-zero_pwm=[280,280,120,280]
-min_pwm=[100,440,100,100]
-max_pwm=[500,150,500,500]
-min_angle=[-90,-81,-5,-90]
-max_angle=[90,72,150,90]
+#The servo 5 now isn't working 
+zero_pwm=[280,280,120,280,0,250]
+min_pwm=[100,440,100,100,0,100]
+max_pwm=[500,150,500,500,0,500]
+min_angle=[-90,-81,-5,-90,0,-90]
+max_angle=[90,72,150,90,0,90]
 
 def callback(jointstate):
     global posicion
@@ -73,6 +74,9 @@ def callback(jointstate):
 #jointstate.position[2]*radtodegree*(max_pwm3-min_pwm3)/(max_angle3-min_angle3)+min_pwm3
     posicion.data[3]=(jointstate.position[3]*radtodegree-min_angle[3])*(max_pwm[3]-min_pwm[3])/(max_angle[3]-min_angle[3])+min_pwm[3]
      
+		posicion.data[4]=(jointstate.position[4]*radtodegree-min_angle[4])*(max_pwm[4]-min_pwm[4])/(max_angle[4]-min_angle[4])+min_pwm[4]
+
+		posicion.data[5]=(jointstate.position[5]*radtodegree-min_angle[5])*(max_pwm[5]-min_pwm[5])/(max_angle[5]-min_angle[5])+min_pwm[5]
 #If the angles are between limits OK, if not PWM max or me depending
 #    for n in range(3):
  #       if posicion.data[n]> max_pwm[n]:
