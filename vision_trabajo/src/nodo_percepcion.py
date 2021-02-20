@@ -8,7 +8,7 @@ import time
 from std_msgs.msg             import String, Int32MultiArray
 from sensor_msgs.msg          import Image
 from cv_bridge                import CvBridge, CvBridgeError
-from vision_trabajo           import *
+from VisionTrabajo.py         import *
 from vision_trabajo.msg       import Vectorpos
 
 class DetectaCirculos:
@@ -47,8 +47,8 @@ class DetectaCirculos:
 
         #Guardamos los valores en con el formato de nuestro mensaje
         for i in range(3):
-            self.pos_circulos.x[i] = 0# x_circulo[i]
-            self.pos_circulos.y[i] = 0# y_circulo[i]
+            self.pos_circulos.x[i] = x_circulo[i]
+            self.pos_circulos.y[i] = y_circulo[i]
             self.pos_circulos.z[i] = 0 #En nuestro ejemplo esta en el suelo
         
         #publicamos la posicion de los circulos en /circulos/coordenadas
