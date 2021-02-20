@@ -8,7 +8,7 @@ import time
 from std_msgs.msg             import String, Int32MultiArray
 from sensor_msgs.msg          import Image
 from cv_bridge                import CvBridge, CvBridgeError
-from VisionTrabajo.py         import *
+from VisionTrabajo            import *
 from vision_trabajo.msg       import Vectorpos
 
 class DetectaCirculos:
@@ -22,14 +22,17 @@ class DetectaCirculos:
         #Publicando en dos topicos en forma de imagen:
         #--> /circulos/imagen_deteccion
         #--> /circulos/objetos_detectados
+        print (">> Publishing image to topic image_blob")
         self.image_detect = rospy.Publisher("/circulos/imagen_deteccion",Image,queue_size=1)
         self.mask_pub = rospy.Publisher("/circulos/image_mask",Image,queue_size=1)
 
         #Publicamos tambien la posicion de nuestros circulos en el plano
+        print (">> Publishing position to topic point_blob")
         self.circle_position = rospy.Publisher("/circulos/coordenadas",Vectorpos,queue_size=1)
 
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("/raspicam_node/image",Image,self.callback)
+        print ("<< Subscribed to topic /raspicam_node/image")
         #self.image_sub = 'distancias1.png'
 
     def callback(self,data):
