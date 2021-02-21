@@ -51,52 +51,18 @@ class ComputeIk():
 
 	 	elbow_angle=pi/2-Teorema_coseno(self.SHOULDER,self.SPAN,modulo_vector)-math.atan2(KNEE,ELBOW)
 
-		thetha4=0
+		theta4=0
 		
-		theta=[theta1, shoulder_angle, elbow_angle,theta4]
+		theta5=0
+		
+		theta6=0
+		
+		theta=[theta1, shoulder_angle, elbow_angle,theta4,theta5,theta6]
 	
 	
 		return theta
 
 
-"""
 
-COMPROBADO EN PYTHON TABIÉN
-Px=150*10^-3
-Py=150*10^-3
-Pz=50*10^-3
-
-FOOT=40*10^-3
-BASE=110*10^-3
-brazo=127*10^-3
-hombro=133*10^-3
-KNEE=26*10^-3
-SPAN=sqrt(hombro^2+KNEE^2)
-
-tetha1=atan2(Py,Px)
-
-Px=(150*10^-3)-40*(10^-3)*cos(tetha1)
-Py=(150*10^-3)-40*(10^-3)*sin(tetha1)
-Pz=(50*10^-3)-BASE
-
-modulo=sqrt((Px)^2+(Py)^2+(Pz)^2)
-coseno=(-0.127^2-SPAN^2+modulo^2)/(2*SPAN*0.127)%teorema coseno
-%mejor con el SPAN en vez de con 133, si no falla
-%posible error
-if (coseno>1)
-    print("NO HAY SOLUCION")
-else
-tetha3=pi/2-acos((0.127^2+SPAN^2-modulo^2)/(2*SPAN*0.127))-atan2(KNEE,hombro)
-
-elevacion=atan2(Pz,sqrt(Px^2+Py^2))
-hola=(modulo^2+brazo^2-SPAN^2)/(2*modulo*brazo)
-gamma=acos(hola)
-
-tetha2=-pi/2+elevacion+gamma
-
-tethas=[tetha1 tetha2 tetha3]
-end
-
-"""
 	
 

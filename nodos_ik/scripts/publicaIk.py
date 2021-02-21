@@ -1,10 +1,20 @@
 #!/usr/bin/env python
 
-# importamos librerias que necesitaremos de ros
-import rospy
-import roslib
 
+#Moveitcommander
+import sys
+import copy
+import rospy
+import moveit_commander
+import moveit_msgs.msg
+import geometry_msgs.msg
 import math
+from math import pi
+from std_msgs.msg import String
+from moveit_commander.conversions import pose_to_list
+import time
+# importamos librerias que necesitaremos de ros
+import roslib
 
 # Funciones creadas para calculo de IK
 from Funciones_FkIk import *
@@ -14,12 +24,13 @@ from nodos_ik.msg import angulos
 from sensor_msgs.msg import JointState
 from std_msgs.msg import *
 from nodos_ik.msg import posicion
+from vision_trabajo.msg import Vectorpos
 
 joint = JointState()
 conv = math.pi / 180
 
 
-def callback(posicion):
+def callback(Vectorpos):
     """En la funcion callback inicializa los objetos ComputeIk y Pose en ik
     y en pose. luego calculamos los angulos de rotacion y los guardamos
     en thetas para luego publicar en joint con la estructura adecuada"""
@@ -29,31 +40,73 @@ def callback(posicion):
 
     pose = Pose()  # Creamos un objeto con estructura de formato Pose (POS: x y z w
 # , ORIENTACION: xyz)
-    pose.position.x = posicion.p_x
-    pose.position.y = posicion.p_y
-    pose.position.z = posicion.p_z
+    for i in range(Vectorpos.n):
+			pose.position.x = Vectorpos.x[i]
+			pose.position.y = Vectorpos.y[i]
+			pose.position.z = Vectorpos.z[i]
 
-    # Calculamos IK y lo guardamos en thetas, valores que utilizaremos para
-# publicar en rviz
-    thetas = ik.calcular_ik(pose)
+     # Calculamos IK y lo guardamos en thetas, valores que utilizaremos para
+     # publicar en rviz
+			thetas = ik.calcular_ik(pose)
 
-    # Datos para publicar con estructura de mensaje JointState
-    joint.header = std_msgs.msg.Header()
-    joint.header.stamp = rospy.Time.now()
-    joint.name = ['base_link__link01', 'link01__link02', 'link01__link05', 'link05__link06']
-    joint.position = [thetas[0], thetas[1], thetas[2], thetas[3]]
-    joint.velocity = []
-    joint.effort = []
+		  # Datos para publicar con estructura de mensaje JointState
+			joint.header = std_msgs.msg.Header()
+			joint.header.stamp = rospy.Time.now()
+			joint.name = ['base_link__link01', 'link01__link02', 'link01__link05', 'link05__link06']
+			joint.position = [thetas[0], thetas[1], thetas[2], thetas[3]]
+			joint.velocity = []
+			joint.effort = []
 
+			#MoveitCommander
+			
+			joint_goal = group.get_current_joint_values()
+			joint_goal[0] = thetas[0]
+			joint_goal[1] = thetas[1]
+			joint_goal[2] = thetas[2]
+			joint_goal[3] = thetas[3]
+			joint_goal[4] = thetas[4]
+			joint_goal[5] = thetas[5]
+			
+			#Planeamos y ejecutamos similar RVIZ
+			plan=group.plan(joint_goal)
+			group.execute(plan,wait=True)
+			time.sleep(10)
+			group.stop()
+
+
+		
+		
+		
 
 def nodo():
-    
-	pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
+	moveit_commander.roscpp_initialize(sys.argv)
+	
+	pub = rospy.Publisher('/hola', JointState, queue_size=10)
 	rospy.init_node('publicaIk')
-	rate = rospy.Rate(7.8125)
+
+	#Iniciamos objetos de MoveitCommander
+	robot = moveit_commander.RobotCommander()
+	scene = moveit_commander.PlanningSceneInterface()
+	group_name = "Brazo"
+	group = moveit_commander.MoveGroupCommander(group_name)
+	rate = rospy.Rate(0.1)
+
+	joint_goal = group.get_current_joint_values()
+	joint_goal[0] = 0.5
+	joint_goal[1] = 0.1
+	joint_goal[2] = 0
+	joint_goal[3] = 0.3
+	joint_goal[4] = 0
+	joint_goal[5] = 0
+	
+	#Planeamos y ejecutamos similar RVIZ
+	plan=group.plan(joint_goal)
+	group.execute(plan,wait=True)
+	time.sleep(10)
+	group.stop()
 
 	while not rospy.is_shutdown():
-		rospy.Subscriber("/pos_robot", posicion, callback)
+		rospy.Subscriber("/circulos/coordenadas", Vectorpos, callback)
 		pub.publish(joint)
 		rate.sleep()
 
