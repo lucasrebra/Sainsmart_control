@@ -42,7 +42,7 @@ class DetectaCirculos:
         except CvBridgeError as e:
             print(e)
         
-        x_circulo, y_circulo, image_drawn, mask = detectorCirculos(cv_image)
+        x_circulo, y_circulo, z_circulo, image_drawn, mask = detectorCirculos(cv_image)
 
         #Publicamos en los dos topicos de imagenes
 	#cv2.imshow('hola',image_drawn)
@@ -53,10 +53,14 @@ class DetectaCirculos:
 
         #Guardamos los valores en con el formato de nuestro mensaje
         #for i in range(3):
-        #    self.pos_circulos.x[i] = x_circulo[i]
-        #    self.pos_circulos.y[i] = y_circulo[i]
-        #    self.pos_circulos.z[i] = 0 #En nuestro ejemplo esta en el suelo
-        
+	print("Valores de el mensaje enviado")
+        self.pos_circulos.x = x_circulo
+        self.pos_circulos.y = y_circulo
+	self.pos_circulos.z = z_circulo
+        #self.pos_circulos.z =  #En nuestro ejemplo esta en el suelo
+        print(self.pos_circulos.x)
+	print(self.pos_circulos.y)
+	print(self.pos_circulos.z)
         #publicamos la posicion de los circulos en /circulos/coordenadas
         self.circle_position.publish(self.pos_circulos)
             

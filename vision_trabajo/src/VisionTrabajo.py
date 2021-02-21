@@ -10,6 +10,7 @@ def detectorCirculos(image):
 	#de coordenadas en el robot
 	x_distances=[]
 	y_distances=[]
+	z_distances=[]
 
 	cv2.circle(image,(670,520),10,(0,0,0),-1)
 	cv2.circle(image,(500,250),10,(0,150,0),-1)
@@ -53,7 +54,7 @@ def detectorCirculos(image):
 
 	image=cv2.drawContours(image, contours, -1, (0,255,0), 3)
 
-	i=0
+	
 	for contour in contours:
 		area=cv2.contourArea(contour)
 		if area>1200:
@@ -73,8 +74,10 @@ def detectorCirculos(image):
 				cv2.line(image,(670,520),((2*x+w)/2,(2*y+h)/2),(250,0,255),2)
 				s = 'x_d:'+ str(x_d)+ 'y_d:'+str(y_d)
 				cv2.putText(image,s,(x-20,y-5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255),1)
-				#x_distances[i]=x_d
-				#y_distances[i]=y_d
+				x_distances.append(x_d)
+				y_distances.append(y_d)
+				z_distances.append(0)
+				
 				
 
 			elif math.sqrt(x_d**2+y_d**2) > 24:
@@ -82,7 +85,7 @@ def detectorCirculos(image):
 				s_error="OUT OF BOUNDARIES"
 				cv2.putText(image,s_error,(x-20,y-5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255),1)
 			
-			i=i+1
+			
 
 
 
@@ -94,7 +97,7 @@ def detectorCirculos(image):
 
 	#cv2.waitKey(0)
 
-	return x_distances, y_distances, image , red_mask
+	return x_distances, y_distances, z_distances, image , red_mask
 
 #test the function
 #if __name__ == "__main__":
