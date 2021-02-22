@@ -49,13 +49,6 @@ def callback(Vectorpos):
      # publicar en rviz
 			thetas = ik.calcular_ik(pose)
 
-		  # Datos para publicar con estructura de mensaje JointState
-			joint.header = std_msgs.msg.Header()
-			joint.header.stamp = rospy.Time.now()
-			joint.name = ['base_link__link01', 'link01__link02', 'link01__link05', 'link05__link06']
-			joint.position = [thetas[0], thetas[1], thetas[2], thetas[3]]
-			joint.velocity = []
-			joint.effort = []
 
 			#MoveitCommander
 			
